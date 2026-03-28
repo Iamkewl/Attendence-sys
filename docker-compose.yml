@@ -1,0 +1,132 @@
+# Docker Compose — Attendance System V2 Full Stack
+
+services:
+  # ── FastAPI Application ──────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://attendance:attendance@postgres:5432/attendance
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./models:/app/models:ro
+      - ./.env:/app/.env:ro
+    command: >
+      uvicorn backend.main:app
+      --host 0.0.0.0 --port 8000
+      --workers 2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    restart: unless-stopped
+
+  # ── Celery CV Workers (per-device parallel processing) ───────
+  cv-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://attendance:attendance@postgres:5432/attendance
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./models:/app/models:ro
+      - ./.env:/app/.env:ro
+    command: >
+      celery -A backend.workers.celery_app worker
+      --loglevel=info
+      --concurrency=1
+      --pool=solo
+      -Q cv_default,cv_device
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 2G
+    restart: unless-stopped
+
+  # ── Celery Beat Scheduler (cron-based tasks) ─────────────────
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://attendance:attendance@postgres:5432/attendance
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: >
+      celery -A backend.workers.celery_app beat
+      --loglevel=info
+    restart: unless-stopped
+
+  # ── Frontend Dev Server (dev only) ───────────────────────────
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+    profiles:
+      - dev
+
+  # ── PostgreSQL 16 + pgvector ─────────────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: attendance
+      POSTGRES_PASSWORD: attendance
+      POSTGRES_DB: attendance
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U attendance"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  # ── Redis 7 (Nonce + Cache + Celery Broker + Pub/Sub) ────────
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - redisdata:/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:

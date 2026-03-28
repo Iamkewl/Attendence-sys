@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+.venv311/
+venv/
+
+# Node & React Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.vite/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+
+# AI Models (large files)
+models/*.pt
+models/*.onnx
+models/*.pth
+*.pt
+*.onnx
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Docker volumes
+pgdata/
+redisdata/
+
+# Test / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Alembic
+alembic/versions/__pycache__/
+
+# Misc
+chat.json
+*.log
