@@ -1,0 +1,15 @@
+{
+  "default": {
+    "min_face_size_px": 48,
+    "sahi_slice_size": 320,
+    "quality_threshold": 0.18,
+    "supports_flash_liveness": false,
+    "supports_depth_liveness": false
+  },
+  "camera_hallway_01": {
+    "min_face_size_px": 32,
+    "sahi_slice_size": 256,
+    "supports_flash_liveness": true,
+    "supports_depth_liveness": false
+  }
+}

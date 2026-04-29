@@ -1,0 +1,32 @@
+name: "yolov12"
+platform: "tensorrt_plan"
+max_batch_size: 16
+default_model_filename: "model.plan"
+
+input [
+  {
+    name: "input"
+    data_type: TYPE_FP32
+    dims: [3, 640, 640]
+  }
+]
+
+output [
+  {
+    name: "output0"
+    data_type: TYPE_FP32
+    dims: [-1, 6]
+  }
+]
+
+dynamic_batching {
+  preferred_batch_size: [1, 2, 4, 8, 16]
+  max_queue_delay_microseconds: 5000
+}
+
+instance_group [
+  {
+    kind: KIND_GPU
+    count: 1
+  }
+]

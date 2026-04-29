@@ -1,0 +1,17 @@
+You are running in a remote workspace. Before any work, load local transferred instructions/skills from the repository itself.
+
+Load these files first:
+1) agent/copilot-instructions/workspace-baseline.instructions.md
+2) agent/skills/*/SKILL.md (all available)
+3) agent/builtin-skills/agent-customization/SKILL.md
+4) agent/builtin-skills/get-search-view-results/SKILL.md
+
+Behavior requirements:
+- Treat agent/copilot-instructions/workspace-baseline.instructions.md as the primary instruction baseline.
+- When a task matches a skill domain, read the corresponding SKILL.md from agent/skills before proceeding.
+- Prefer local transferred skill files in this repo over machine-global paths.
+- If a referenced skill file is missing, continue safely and report which one is missing.
+
+For setup tasks on this server:
+- Follow REMOTE_SERVER_HANDOFF_PROMPT.md in repo root.
+- Parse and honor REMOTE_HANDOFF_CONTEXT values exactly.

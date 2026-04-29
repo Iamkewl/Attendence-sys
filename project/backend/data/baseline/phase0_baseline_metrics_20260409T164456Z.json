@@ -1,0 +1,89 @@
+{
+  "generated_at_utc": "2026-04-09T16:44:56.189800+00:00",
+  "phase": "phase0",
+  "production_camera_profile": "classroom_cam_profile_v1",
+  "test_capture_source_mapping": {
+    "webcam": "classroom_cam_profile_v1",
+    "nikon": "classroom_cam_profile_v1"
+  },
+  "reporting_axis": "scene_condition_bands",
+  "condition_band_definition": "distance_band + illumination_band",
+  "note": "Metrics are grouped by scene condition bands; capture source labels are retained only as provenance.",
+  "summary": {
+    "samples": 2,
+    "detected_faces": 0,
+    "quality_pass_faces": 0,
+    "recognized_faces": 0,
+    "quality_pass_rate": 0.0,
+    "recognized_over_detected_rate": 0.0,
+    "precision_mean": null,
+    "recall_mean": null,
+    "f1_mean": null,
+    "top1_confidence_mean": null,
+    "score_margin_mean": null
+  },
+  "scene_condition_bands": {
+    "distance:mid|illumination:mixed": {
+      "samples": 1,
+      "detected_faces": 0,
+      "quality_pass_faces": 0,
+      "recognized_faces": 0,
+      "quality_pass_rate": 0.0,
+      "recognized_over_detected_rate": 0.0,
+      "precision_mean": null,
+      "recall_mean": null,
+      "f1_mean": null,
+      "top1_confidence_mean": null,
+      "score_margin_mean": null
+    },
+    "distance:near|illumination:bright": {
+      "samples": 1,
+      "detected_faces": 0,
+      "quality_pass_faces": 0,
+      "recognized_faces": 0,
+      "quality_pass_rate": 0.0,
+      "recognized_over_detected_rate": 0.0,
+      "precision_mean": null,
+      "recall_mean": null,
+      "f1_mean": null,
+      "top1_confidence_mean": null,
+      "score_margin_mean": null
+    }
+  },
+  "capture_source_counts": {
+    "nikon": 1,
+    "webcam": 1
+  },
+  "samples": [
+    {
+      "sample_id": "webcam_near_bright_001",
+      "camera_profile": "inherited",
+      "capture_source": "webcam",
+      "distance_band": "near",
+      "illumination_band": "bright",
+      "detected_faces": 0,
+      "quality_pass_faces": 0,
+      "recognized_faces": 0,
+      "precision": null,
+      "recall": null,
+      "f1_score": null,
+      "top1_confidence": null,
+      "score_margin": null
+    },
+    {
+      "sample_id": "nikon_mid_mixed_001",
+      "camera_profile": "inherited",
+      "capture_source": "nikon",
+      "distance_band": "mid",
+      "illumination_band": "mixed",
+      "detected_faces": 0,
+      "quality_pass_faces": 0,
+      "recognized_faces": 0,
+      "precision": null,
+      "recall": null,
+      "f1_score": null,
+      "top1_confidence": null,
+      "score_margin": null
+    }
+  ]
+}

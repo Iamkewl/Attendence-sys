@@ -1,0 +1,51 @@
+# VCS and editor state
+.git/
+.vs/
+.vscode/
+.idea/
+
+# Python build/runtime artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+.venv311/
+venv/
+
+# Frontend build artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Local env and secrets
+.env
+frontend/.env
+frontend/.env.local
+
+# Generated caches/reports
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.state/
+graphify-out/cache/
+
+# Runtime data
+pgdata/
+redisdata/
+celerybeat-schedule*
+
+# Large/derived models
+models/*.pt
+models/*.onnx
+models/*.pth
+*.pt
+*.onnx
+triton_models/*/1/model.plan
+triton_models/*/1/model.onnx
+
+# OS noise
+Thumbs.db
+.DS_Store

@@ -1,0 +1,7 @@
+{
+  "default": {
+    "expected_seconds": 60,
+    "tolerance_seconds": 45
+  },
+  "transitions": {}
+}
